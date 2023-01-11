@@ -1,4 +1,4 @@
-var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
+
 var inputCity = $("#city-name").val()
 
 
