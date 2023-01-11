@@ -1,0 +1,53 @@
+.root {
+
+    color: white;
+
+
+}
+
+
+div {
+    
+    
+    border: solid black 3px;
+
+}
+
+
+
+
+
+.col-3 {
+
+    height: 100vh;
+    border: solid black 3px;
+    margin-right: 30px;
+
+}
+
+.weather {
+
+    height: 35vh;
+
+}
+
+#city {
+
+    margin-bottom: 15px;
+
+}
+
+input {
+
+    width: auto;
+
+}
+
+button {
+
+
+    height: auto;
+    width: auto;
+    background-color: #191919;
+    
+}
