@@ -32,7 +32,7 @@ function getApi() {
 
     var inputCity = $("#city-name").val()
 
-    var requestUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;
+    var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;
 
 
     fetch(requestUrl)
