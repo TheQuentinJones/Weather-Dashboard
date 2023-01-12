@@ -1,24 +1,27 @@
 var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
 var inputCity = $("#city-name").val()
 var responseText = $("#city-search")
-
+var forecastDays = ["day-1" , "day-2" , "day-3" , "day-4" , "day-5"]
 
 function displayWeather(lat,lon) {
 
-  var secondUrl = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
+  var secondUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
 
   fetch(secondUrl) 
-    .then(function (newData) {
+    .then(function (response) {
 
-    console.log(newData);
+    console.log(response);
 
     
-      return newData.json();
+      return response.json();
     
   }).then(function(veryNewData) {
 
     console.log(veryNewData)
 
+    $("#city-name-date").append("<h3>").val(veryNewData.city.name)
+
+    
 
   })
 
@@ -41,8 +44,7 @@ function getApi() {
 
         console.log(inputCity)
 
-
-        $("#city-search").append("<button>").val(inputCity)
+        localStorage.setItem( "button-1" , inputCity)
         
         
 

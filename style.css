@@ -51,3 +51,24 @@ button {
     background-color: #191919;
     
 }
+
+#day-1,
+#day-2, 
+#day-3,
+#day-4,
+#day-5 {
+
+    display: none;
+
+
+
+}
+
+.display-card {
+
+
+    display:block;
+    background-color: #191919;
+    color: white;
+
+}
