@@ -6,12 +6,7 @@
 }
 
 
-div {
-    
-    
-    border: solid black 3px;
 
-}
 
 
 
@@ -20,7 +15,7 @@ div {
 .col-3 {
 
     height: 100vh;
-    border: solid black 3px;
+   
     margin-right: 30px;
 
 }
