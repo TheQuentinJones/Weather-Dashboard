@@ -1,15 +1,38 @@
-
+var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
 var inputCity = $("#city-name").val()
-
-
-
 var responseText = $("#city-search")
+
+
+function displayWeather(lat,lon) {
+
+  var secondUrl = "https://pro.openweathermap.org/data/2.5/forecast/climate?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
+
+  fetch(secondUrl) 
+    .then(function (newData) {
+
+    console.log(newData);
+
+    
+      return newData.json();
+    
+  }).then(function(veryNewData) {
+
+    console.log(veryNewData)
+
+
+  })
+
+
+}
+
+
+
 
 function getApi() {
 
     var inputCity = $("#city-name").val()
 
-    var requestUrl = "http://api.openweathermap.org/geo/1.0/zip?zip=90210,US&appid=" + apiKey;
+    var requestUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;
 
 
     fetch(requestUrl)
@@ -17,16 +40,28 @@ function getApi() {
         console.log(response);
 
         console.log(inputCity)
+
+
+        $("#city-search").append("<button>").val(inputCity)
         
         
-        if (response.status === 200) {
-            
-            $("<button>").appendTo("#city-search").val(response.status)
-        }
+
         return response.json();
-    });
+
+    }).then( function (data) {
+
+      console.log(data)
+
+
+      var lat = data[0].lat
+      var lon = data[0].lon
+
+      displayWeather(lat,lon)
+
+    })
   }
  
+
   
 
   $(".btn").on("click" , getApi)
