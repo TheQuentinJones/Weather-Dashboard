@@ -5,7 +5,7 @@ var responseText = $("#city-search")
 
 function displayWeather(lat,lon) {
 
-  var secondUrl = "https://pro.openweathermap.org/data/2.5/forecast/climate?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
+  var secondUrl = "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
 
   fetch(secondUrl) 
     .then(function (newData) {
