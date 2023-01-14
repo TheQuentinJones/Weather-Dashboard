@@ -10,7 +10,7 @@ function displayWeather(lat,lon) {
   fetch(secondUrl) 
     .then(function (response) {
 
-    console.log(response);
+    // console.log(response);
 
     
       return response.json();
@@ -19,7 +19,12 @@ function displayWeather(lat,lon) {
 
     console.log(veryNewData)
 
-    $("#city-name-date").append("<h3>").val(veryNewData.city.name)
+    var cityNameButton = document.createElement("button")
+    var buttonEl = $("#city-search")
+
+    cityNameButton.textContent = veryNewData.city.name
+
+    buttonEl.append(cityNameButton)
 
     
 
@@ -40,9 +45,9 @@ function getApi() {
 
     fetch(requestUrl)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
 
-        console.log(inputCity)
+        // console.log(inputCity)
 
         localStorage.setItem( "button-1" , inputCity)
         
@@ -52,7 +57,7 @@ function getApi() {
 
     }).then( function (data) {
 
-      console.log(data)
+      // console.log(data)
 
 
       var lat = data[0].lat
