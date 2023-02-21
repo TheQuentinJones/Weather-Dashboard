@@ -1,11 +1,12 @@
-var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
+// var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
+var apiKey = "cea924180544dde5b612be105dafb515"
 var inputCity = $("#city-name").val()
 var responseText = $("#city-search")
 var forecastDays = ["day-1" , "day-2" , "day-3" , "day-4" , "day-5"]
 
-function displayWeather(lat,lon) {
+function displayWeather(lat,lon,inputCity) {
 
-  var secondUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&cnt=5&appid=" + apiKey;
+  var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
 
   fetch(secondUrl) 
     .then(function (response) {
@@ -19,13 +20,13 @@ function displayWeather(lat,lon) {
 
     console.log(veryNewData)
 
-    var cityNameButton = document.createElement("button")
-    var buttonEl = $("#city-search")
+    const cityEl = document.querySelector("#city-name-date")
+    const tempItem = document.querySelector(".temp-wind-humid")
 
-    cityNameButton.textContent = veryNewData.city.name
+    cityEl.textContent = inputCity
+    tempItem.textContent = veryNewData.current.temp
 
-    buttonEl.append(cityNameButton)
-
+    console.log(veryNewData.current.temp)
     
 
   })
@@ -57,13 +58,13 @@ function getApi() {
 
     }).then( function (data) {
 
-      // console.log(data)
+      console.log(data)
 
 
       var lat = data[0].lat
       var lon = data[0].lon
 
-      displayWeather(lat,lon)
+      displayWeather(lat,lon,inputCity)
 
     })
   }
