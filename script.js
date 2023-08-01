@@ -4,7 +4,8 @@ var responseText = $("#city-search")
 var inputEl = document.querySelector("#city-name")
 var forecastDays = ["day-1" , "day-2" , "day-3" , "day-4" , "day-5"]
 
-function displayWeather( lat, lon, thisCity) {
+
+function displayWeather( lat, lon, thisCity, thisState, thisCountry) {
 
   var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
 
@@ -23,14 +24,14 @@ function displayWeather( lat, lon, thisCity) {
     const cityEl = document.querySelector("#city-name-date")
     const tempItem = document.querySelector(".temp-wind-humid")
 
-    cityEl.textContent = thisCity + " " + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY")
+    cityEl.textContent = thisCity + ", " + thisState + ", " + thisCountry + " (" + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY") + ")"
     tempItem.textContent = "Temp: " + veryNewData.current.temp
 
     var cardsEl = document.querySelector(".card-container")
     cardsEl.innerHTML = ""  
     
 
-    for ( var i = 0; i< 5; i++) {
+    for ( var i = 0; i < 7; i++ ) {
 
       var cardEl = document.createElement("div")
       cardEl.setAttribute( "class" , "card")   
@@ -38,20 +39,20 @@ function displayWeather( lat, lon, thisCity) {
       var cardPtag = document.createElement("p")
       var cardPtag2 = document.createElement("p")
       var cardPtag3 = document.createElement("h5")
-      // var cardIcon = document.createElement("img")
+      var cardIcon = document.createElement("img")
 
       cardTitleEl.textContent = "Temp: " + veryNewData.daily[i].temp.day + " F"
       cardPtag.textContent = "Wind Speed: " + veryNewData.daily[i].wind_speed + " MPH"
       cardPtag2.textContent = "Feels Like: " + veryNewData.daily[i].feels_like.day + " F"
       cardPtag3.textContent = "Date: (" + dayjs.unix(veryNewData.daily[i].dt).format("MM/DD/YY") + ")"
-      // cardIcon.setAttribute("src", veryNewData.daily[i].weather[i].icon)
+      cardIcon.setAttribute("src",  "https://openweathermap.org/img/wn/" + veryNewData.daily[i].weather[0].icon + "@2x.png")
 
       console.log(veryNewData.daily[0].temp.day)
 
       cardsEl.append(cardEl)
       cardEl.append(cardPtag3)
       cardEl.append(cardTitleEl)
-      // cardEl.append(cardIcon)
+      cardEl.append(cardIcon)
       cardEl.append(cardPtag)
       cardEl.append(cardPtag2)
 
@@ -71,8 +72,8 @@ function displayWeather( lat, lon, thisCity) {
 
 function getApi() {
 
-  
   var inputCity = $("#city-name").val()
+  
 
   var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;  
   
@@ -95,7 +96,7 @@ function getApi() {
       var liEntry = document.createElement("li")
       var button = document.createElement("button")
 
-      button.setAttribute("class", "cityNameButton")
+      button.setAttribute("class", "button is-black is-normal is-fullwidth")
       button.setAttribute( "id" , data[0].name )
       button.setAttribute( "onclick", "clickEd(this.id)" )
       button.textContent = data[0].name 
@@ -104,14 +105,13 @@ function getApi() {
       liEntry.append(button)
     }   
     
-
+    var thisCountry = data[0].country
+    var thisState = data[0].state
     var nameCity = data[0].name
     var lat = data[0].lat
     var lon = data[0].lon
 
-    displayWeather( lat, lon, nameCity)
-
-    
+    displayWeather( lat, lon, nameCity, thisState, thisCountry)    
 
   })
 }
@@ -131,11 +131,12 @@ function getApiClicked(cityName) {
 
     console.log(data)
 
-
+    var thisCountry = data[0].country
+    var thisState = data[0].state
     var lat = data[0].lat
     var lon = data[0].lon
 
-    displayWeather(lat,lon, cityName)    
+    displayWeather(lat,lon, cityName, thisState, thisCountry)    
 
   })
 }
@@ -143,7 +144,7 @@ function getApiClicked(cityName) {
 
   
 
-$(".btn").on("click" , getApi)
+$("#search-button").on("click" , getApi)
 
 buttonCreate = () => {
 
@@ -155,7 +156,7 @@ buttonCreate = () => {
     var liEl = document.createElement("li")
     var button = document.createElement("button")
 
-    button.setAttribute("class", "cityNameButton")
+    button.setAttribute("class", "button is-black is-normal is-fullwidth")
     button.setAttribute( "id", localStorage.getItem(i) )
     button.setAttribute( "onclick", "clickEd(this.id)" )
     button.textContent = localStorage.getItem(i)
