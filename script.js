@@ -1,8 +1,8 @@
 // var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
 var apiKey = "cea924180544dde5b612be105dafb515"
-var responseText = $("#city-search")
+
 var inputEl = document.querySelector("#city-name")
-var forecastDays = ["day-1" , "day-2" , "day-3" , "day-4" , "day-5"]
+
 
 
 function displayWeather( lat, lon, thisCity, thisState, thisCountry) {
