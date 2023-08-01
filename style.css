@@ -68,11 +68,6 @@ button {
 
 .card-container {
 
-
-    flex-direction: row;
-    flex-wrap: nowrap;
-    display: flex;
-    justify-content: space-between;
     border-top: black solid .3rem;
 
 }
@@ -91,8 +86,3 @@ input {
 
 }
 
-#city-search {
-
-    width: min-content;
-
-}
