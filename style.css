@@ -16,7 +16,7 @@
 
     height: 100vh;
    
-    margin-right: 30px;
+    margin-right: 3rem;
 
 }
 
@@ -34,36 +34,65 @@
 
 input {
 
-    width: auto;
+    width: 100;
+
+}
+
+li {
+
+    width: 100;
+    
+
+}
+
+ul {
+
+    list-style-type: none;
+    width: 100;
+
+}
+
+.cityNameButton {
+
+    width: 14rem;
 
 }
 
 button {
 
-
-    height: auto;
-    width: auto;
-    background-color: #191919;
+    margin-bottom: .5rem;
+    width: 100;  
     
 }
 
-#day-1,
-#day-2, 
-#day-3,
-#day-4,
-#day-5 {
 
-    display: none;
+.card-container {
 
 
+    flex-direction: row;
+    flex-wrap: nowrap;
+    display: flex;
+    justify-content: space-between;
+    border-top: black solid .3rem;
 
 }
 
-.display-card {
+.card {
 
+    width: 7rem;
+    margin-top: 1rem;
+    padding: .3rem;
 
-    display:block;
-    background-color: #191919;
-    color: white;
+}
+
+input {
+
+    margin-bottom: .5rem;
+
+}
+
+#city-search {
+
+    width: min-content;
 
 }

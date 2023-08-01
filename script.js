@@ -1,10 +1,10 @@
 // var apiKey = "b0f0b0255afd924efbe3e26981bbf98c"
 var apiKey = "cea924180544dde5b612be105dafb515"
-var inputCity = $("#city-name").val()
 var responseText = $("#city-search")
+var inputEl = document.querySelector("#city-name")
 var forecastDays = ["day-1" , "day-2" , "day-3" , "day-4" , "day-5"]
 
-function displayWeather(lat,lon,inputCity) {
+function displayWeather( lat, lon, thisCity) {
 
   var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
 
@@ -23,11 +23,43 @@ function displayWeather(lat,lon,inputCity) {
     const cityEl = document.querySelector("#city-name-date")
     const tempItem = document.querySelector(".temp-wind-humid")
 
-    cityEl.textContent = inputCity
-    tempItem.textContent = veryNewData.current.temp
+    cityEl.textContent = thisCity + " " + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY")
+    tempItem.textContent = "Temp: " + veryNewData.current.temp
 
-    console.log(veryNewData.current.temp)
+    var cardsEl = document.querySelector(".card-container")
+    cardsEl.innerHTML = ""  
     
+
+    for ( var i = 0; i< 5; i++) {
+
+      var cardEl = document.createElement("div")
+      cardEl.setAttribute( "class" , "card")   
+      var cardTitleEl = document.createElement("p")
+      var cardPtag = document.createElement("p")
+      var cardPtag2 = document.createElement("p")
+      var cardPtag3 = document.createElement("h5")
+      // var cardIcon = document.createElement("img")
+
+      cardTitleEl.textContent = "Temp: " + veryNewData.daily[i].temp.day + " F"
+      cardPtag.textContent = "Wind Speed: " + veryNewData.daily[i].wind_speed + " MPH"
+      cardPtag2.textContent = "Feels Like: " + veryNewData.daily[i].feels_like.day + " F"
+      cardPtag3.textContent = "Date: (" + dayjs.unix(veryNewData.daily[i].dt).format("MM/DD/YY") + ")"
+      // cardIcon.setAttribute("src", veryNewData.daily[i].weather[i].icon)
+
+      console.log(veryNewData.daily[0].temp.day)
+
+      cardsEl.append(cardEl)
+      cardEl.append(cardPtag3)
+      cardEl.append(cardTitleEl)
+      // cardEl.append(cardIcon)
+      cardEl.append(cardPtag)
+      cardEl.append(cardPtag2)
+
+    }
+
+
+    
+    inputEl.value = ""
 
   })
 
@@ -39,40 +71,124 @@ function displayWeather(lat,lon,inputCity) {
 
 function getApi() {
 
-    var inputCity = $("#city-name").val()
+  
+  var inputCity = $("#city-name").val()
 
-    var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;
+  var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=" + apiKey;  
+  
+  fetch(requestUrl)
+    .then(function (response) {      
+
+    return response.json();
+
+  }).then( function (data) {
+
+    console.log(data)
+
+    var itExists = isValueInLocalStorage(data[0].name)     
+
+    if (!itExists) {
+      localStorage.setItem( localStorage.length + 1 , data[0].name)
+      console.log(localStorage)
+
+      var tableEL = document.querySelector(".table")
+      var liEntry = document.createElement("li")
+      var button = document.createElement("button")
+
+      button.setAttribute("class", "cityNameButton")
+      button.setAttribute( "id" , data[0].name )
+      button.setAttribute( "onclick", "clickEd(this.id)" )
+      button.textContent = data[0].name 
+
+      tableEL.append(liEntry)
+      liEntry.append(button)
+    }   
+    
+
+    var nameCity = data[0].name
+    var lat = data[0].lat
+    var lon = data[0].lon
+
+    displayWeather( lat, lon, nameCity)
+
+    
+
+  })
+}
+
+function getApiClicked(cityName) {
+
+  var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
 
 
-    fetch(requestUrl)
-      .then(function (response) {
-        // console.log(response);
-
-        // console.log(inputCity)
-
-        localStorage.setItem( "button-1" , inputCity)
-        
-        
-
-        return response.json();
-
-    }).then( function (data) {
-
-      console.log(data)
+  fetch(requestUrl)
+    .then(function (response) {
 
 
-      var lat = data[0].lat
-      var lon = data[0].lon
+    return response.json();
 
-      displayWeather(lat,lon,inputCity)
+  }).then( function (data) {
 
-    })
-  }
+    console.log(data)
+
+
+    var lat = data[0].lat
+    var lon = data[0].lon
+
+    displayWeather(lat,lon, cityName)    
+
+  })
+}
  
 
   
 
-  $(".btn").on("click" , getApi)
+$(".btn").on("click" , getApi)
+
+buttonCreate = () => {
+
+  var ulEl = document.querySelector(".table")
+  
+
+  for ( i = 1; i<localStorage.length + 1; i++) {
+
+    var liEl = document.createElement("li")
+    var button = document.createElement("button")
+
+    button.setAttribute("class", "cityNameButton")
+    button.setAttribute( "id", localStorage.getItem(i) )
+    button.setAttribute( "onclick", "clickEd(this.id)" )
+    button.textContent = localStorage.getItem(i)
+
+    ulEl.append(liEl)
+    liEl.append(button)
+    
+    
+  }
+}
+
+buttonCreate()
+
+
+clickEd = (clicked) => {
+
+  getApiClicked(clicked)
+  console.log(clicked)
+
+}
+
+function isValueInLocalStorage(value) {
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const storedValue = localStorage.getItem(key);
+    if (storedValue.toLowerCase() === value.toLowerCase()) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
   
 
