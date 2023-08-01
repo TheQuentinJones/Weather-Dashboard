@@ -167,7 +167,7 @@ buttonCreate = () => {
   var ulEl = document.querySelector(".table")
   
 
-  for ( i = 1; i<localStorage.length + 1; i++) {
+  for ( i = 1; i < localStorage.length + 1; i++) {
 
     var liEl = document.createElement("li")
     var button = document.createElement("button")
