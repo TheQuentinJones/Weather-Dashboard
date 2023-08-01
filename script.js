@@ -22,10 +22,26 @@ function displayWeather( lat, lon, thisCity, thisState, thisCountry) {
     console.log(veryNewData)
 
     const cityEl = document.querySelector("#city-name-date")
-    const tempItem = document.querySelector(".temp-wind-humid")
+    const infoEl = document.querySelector(".temp-wind-humid")
+
+    infoEl.innerHTML = ""
+
+    const tempItem = document.createElement("p")
+    const windItem = document.createElement("p")
+    const iconItem = document.createElement("img")
+    const feelsLike = document.createElement("p")
 
     cityEl.textContent = thisCity + ", " + thisState + ", " + thisCountry + " (" + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY") + ")"
-    tempItem.textContent = "Temp: " + veryNewData.current.temp
+
+    tempItem.textContent = "Temp: " + veryNewData.current.temp + " F"
+    windItem.textContent = "Wind Speed: " + veryNewData.current.wind_speed + " MPH"
+    iconItem.setAttribute( "src" , "https://openweathermap.org/img/wn/" + veryNewData.current.weather[0].icon + "@2x.png" )
+    feelsLike.textContent = "Feels Like: " + veryNewData.current.feels_like + " F"
+
+    infoEl.append(tempItem)
+    infoEl.append(iconItem)
+    infoEl.append(windItem)
+    infoEl.append(feelsLike)
 
     var cardsEl = document.querySelector(".card-container")
     cardsEl.innerHTML = ""  
